@@ -3,20 +3,36 @@ import { createPortal } from "react-dom";
 import Backdrop from "./Backdrop";
 
 import "./Modal.scss";
-interface ModalProps
+export interface ModalProps
   extends React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,
     HTMLDivElement
   > {
   show: boolean;
   closeModal: () => void;
+  width?: number;
 }
-const Modal: React.FC<ModalProps> = ({ show, closeModal }) => {
+const Modal: React.FC<ModalProps> = ({
+  show,
+  closeModal,
+  children,
+  className,
+  width,
+}) => {
   if (!show) return <></>;
 
   return createPortal(
     <>
-      <div className="modal-popup">Modal</div>
+      <div
+        style={
+          width
+            ? ({ "--width": `${width}px` } as React.CSSProperties)
+            : undefined
+        }
+        className={`modal-popup ${className}`}
+      >
+        {children}
+      </div>
       <Backdrop onClick={closeModal} />
     </>,
     document.getElementById("modal")!

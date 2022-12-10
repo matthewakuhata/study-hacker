@@ -13,3 +13,49 @@
 .header__settings:hover {
   cursor: pointer;
 }
+
+.setting-modal {
+  color: rgb(187, 187, 187);
+  position: relative;
+  padding: 10px;
+  background-color: white;
+
+  h3 {
+    margin: 0;
+  }
+
+  span {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+  }
+
+  hr {
+    border: 0;
+    border-top: 1px solid rgb(187, 187, 187);
+  }
+}
+
+.setting-modal__timers {
+  display: flex;
+}
+
+.setting-modal__timer {
+  border-radius: 5px;
+  padding: 10px;
+  display: grid;
+  gap: 5px;
+
+  h5 {
+    margin: 0;
+    color: rgb(187, 187, 187)
+  }
+
+  input {
+    border: none;
+    background-color: rgba(187, 187, 187, 0.356);
+    padding: 10px;
+    border-radius: 5px;
+    width: 4rem;
+  }
+}

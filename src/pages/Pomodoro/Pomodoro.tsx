@@ -1,11 +1,11 @@
 import Timer from "./components/Timer/Timer";
-import Tasks from "./components/Tasks";
+import TaskList from "./components/Tasks";
 
 const Pomodoro = () => {
   return (
     <div className="pomodoro">
       <Timer />
-      <Tasks />
+      <TaskList />
       <div className="pomodoro__container">totals</div>
     </div>
   );

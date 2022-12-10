@@ -16,7 +16,6 @@
 
 .setting-modal {
   color: rgb(187, 187, 187);
-  position: relative;
   padding: 10px;
   background-color: white;
 
@@ -38,6 +37,7 @@
 
 .setting-modal__timers {
   display: flex;
+  justify-content: space-evenly;
 }
 
 .setting-modal__timer {

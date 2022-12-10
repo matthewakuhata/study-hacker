@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "../../../../shared/components/Form";
+import { useInterval } from "../../../../shared/hooks/useInterval";
 import "./styles.scss";
 
 const Timer = ({ timerValues = [3, 4, 5] }: { timerValues: number[] }) => {
@@ -12,18 +14,6 @@ const Timer = ({ timerValues = [3, 4, 5] }: { timerValues: number[] }) => {
   const [timerSelected, setTimerSelected] = useState<number>(0);
   const [seconds, setSeconds] = useState<number>(timers[0].seconds);
 
-  useEffect(() => {
-    let tick: NodeJS.Timer;
-    if (isActive) {
-      tick = setInterval(() => {
-        updateRemainingTime();
-      }, 1000);
-    }
-    return () => {
-      clearInterval(tick);
-    };
-  });
-
   const updateRemainingTime = () => {
     setSeconds((prev) => prev - 1);
 
@@ -32,8 +22,10 @@ const Timer = ({ timerValues = [3, 4, 5] }: { timerValues: number[] }) => {
     }
   };
 
+  useInterval(updateRemainingTime, isActive ? 1000 : null);
+
   const toggleIsActive = () => {
-    setIsActive(!isActive);
+    setIsActive((prev) => !prev);
   };
 
   const resetTimer = () => {
@@ -58,90 +50,43 @@ const Timer = ({ timerValues = [3, 4, 5] }: { timerValues: number[] }) => {
     setSeconds(timers[type].seconds);
   };
 
-  const showReset = () => {
-    return timers[timerSelected].seconds !== seconds;
-  };
-
-  const getClassNames = (type: number) => {
-    if (timerSelected === type) return "button--selected";
-    return "button";
-  };
-
-  const getStyles = (type: string) => {
-    let bgColor = "255, 255, 255";
-
-    switch (type) {
-      case "green": {
-        bgColor = "0, 102, 0";
-        break;
-      }
-      case "red": {
-        bgColor = "204, 0, 0";
-        break;
-      }
-    }
-
-    return {
-      "--bg-color": `rgba(${bgColor}, 0.2)`,
-      "--bg-color-hover": `rgba(${bgColor}, 0.5)`,
-    } as React.CSSProperties;
-  };
-
   return (
     <section className="pomodoro__container">
-      <div className="timerSelection">
+      <div className="timer__selection">
         {timers.map((timer, index) => {
           return (
-            <span
+            <Button
               key={timer.key}
               onClick={() => selectTimer(index)}
-              className={getClassNames(index)}
-              style={getStyles("default")}
+              isSelected={timerSelected === index}
+              size="s"
             >
               {timer.name}
-            </span>
+            </Button>
           );
         })}
       </div>
       <span className="timerDuration" data-testid="timer">
         {calculateDisplayTime(seconds)}
       </span>
-      <div className="timerControls">
+      <div className="timer__controls">
         {isActive ? (
-          <span
-            style={getStyles("red")}
-            onClick={toggleIsActive}
-            className="button timerControls__button"
-          >
+          <Button displayType="red" onClick={toggleIsActive}>
             Stop
-          </span>
+          </Button>
         ) : (
           <>
             {seconds > 0 ? (
-              <span
-                style={getStyles("default")}
-                onClick={toggleIsActive}
-                className="button timerControls__button"
-              >
-                Start
-              </span>
+              <Button onClick={toggleIsActive}>Start</Button>
             ) : (
-              <span
-                style={getStyles("default")}
-                onClick={() => selectTimer((timerSelected + 1) % 3)}
-                className="button timerControls__button"
-              >
+              <Button onClick={() => selectTimer((timerSelected + 1) % 3)}>
                 Next
-              </span>
+              </Button>
             )}
-            {showReset() && (
-              <span
-                style={getStyles("red")}
-                onClick={resetTimer}
-                className="button timerControls__button"
-              >
+            {timers[timerSelected].seconds !== seconds && (
+              <Button displayType="red" onClick={resetTimer}>
                 Reset
-              </span>
+              </Button>
             )}
           </>
         )}

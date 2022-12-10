@@ -1,4 +1,4 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import Backdrop from "./Backdrop";
 
@@ -17,18 +17,14 @@ const Modal: React.FC<ModalProps> = ({
   closeModal,
   children,
   className,
-  width,
+  width = 350,
 }) => {
   if (!show) return <></>;
 
   return createPortal(
     <>
       <div
-        style={
-          width
-            ? ({ "--width": `${width}px` } as React.CSSProperties)
-            : undefined
-        }
+        style={{ "--width": `${width}px` } as CSSProperties}
         className={`modal-popup ${className}`}
       >
         {children}

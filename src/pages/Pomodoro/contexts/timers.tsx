@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 const SECONDS_IN_MIN = 60;
 
 export type PomodoroTimer = {
@@ -25,12 +25,33 @@ export const initialTimersValue = {
   long: { name: "Long Break", seconds: 10 * SECONDS_IN_MIN },
 };
 
-export const useTimerValues = () => {
-  const [timerValues, setTimerValues] =
-    useState<PomodoroTimers>(initialTimersValue);
+interface TimersContextArgs {
+  timerValues: PomodoroTimers;
+  updateTimerValue: UpdateTimerValueFunction;
+}
+
+export const TimersContext = createContext<TimersContextArgs>({
+  timerValues: initialTimersValue,
+  updateTimerValue: () => {},
+});
+
+export const useTimers = () => {
+  const contextValue = useContext(TimersContext);
+
+  if (!contextValue) {
+    throw new Error("useTimers must be called from within an TimersProvider");
+  }
+
+  return contextValue;
+};
+
+export const TimersProvider = (props: any) => {
+  const [timerValues, setTimerValues] = useState<PomodoroTimers | null>();
 
   const updateTimerValue: UpdateTimerValueFunction = (key, value) => {
     setTimerValues((prev) => {
+      if (!prev) return prev;
+
       const newTimers = { ...prev };
       newTimers[key].seconds = value;
 
@@ -41,13 +62,17 @@ export const useTimerValues = () => {
 
   useEffect(() => {
     const timers = JSON.parse(localStorage.getItem("pomo-timers") || "[]");
-    console.log(!timers);
-    if (!!timers) {
+    if (!timers) {
       setTimerValues(initialTimersValue);
     } else {
       setTimerValues(timers);
     }
   }, []);
 
-  return { timerValues, updateTimerValue };
+  return (
+    <TimersContext.Provider
+      value={{ timerValues, updateTimerValue }}
+      {...props}
+    />
+  );
 };

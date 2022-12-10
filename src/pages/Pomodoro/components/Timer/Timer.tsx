@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
-import { AppContext } from "../../../../App";
-import { convertToDisplayTime } from "../../../../helpers/convertToDisplayTime";
+import React, { useContext, useEffect, useState } from "react";
 
+import { convertToDisplayTime } from "../../../../helpers/convertToDisplayTime";
 import { Button } from "../../../../shared/components/Form";
 import { useInterval } from "../../../../shared/hooks/useInterval";
-import { PomodoroTimers, PomodoroTimersKeys } from "../../hooks/useTimers";
+import { PomodoroTimersKeys, TimersContext } from "../../contexts/timers";
 
 import "./styles.scss";
 
@@ -13,8 +12,14 @@ const Timer = () => {
   const [timerSelected, setTimerSelected] =
     useState<PomodoroTimersKeys>("pomodoro");
 
-  const { timerValues } = useContext(AppContext);
-  const [seconds, setSeconds] = useState<number>(timerValues.pomodoro.seconds);
+  const { timerValues } = useContext(TimersContext);
+  const [seconds, setSeconds] = useState<number>(0);
+
+  useEffect(() => {
+    if (isActive) return;
+
+    setSeconds(timerValues?.[timerSelected].seconds || 0);
+  }, [timerValues, timerSelected]);
 
   const updateRemainingTime = () => {
     setSeconds((prev) => prev - 1);
@@ -44,18 +49,19 @@ const Timer = () => {
   return (
     <section className="pomodoro__container">
       <div className="timer__selection">
-        {Object.keys(timerValues).map((key) => {
-          return (
-            <Button
-              key={key}
-              onClick={() => selectTimer(key as PomodoroTimersKeys)}
-              isSelected={timerSelected === key}
-              size="s"
-            >
-              {timerValues[key as PomodoroTimersKeys].name}
-            </Button>
-          );
-        })}
+        {timerValues &&
+          Object.keys(timerValues).map((key) => {
+            return (
+              <Button
+                key={key}
+                onClick={() => selectTimer(key as PomodoroTimersKeys)}
+                isSelected={timerSelected === key}
+                size="s"
+              >
+                {timerValues[key as PomodoroTimersKeys].name}
+              </Button>
+            );
+          })}
       </div>
       <span className="timerDuration" data-testid="timer">
         {convertToDisplayTime(seconds)}
@@ -72,7 +78,7 @@ const Timer = () => {
             ) : (
               <Button onClick={() => selectTimer("short")}>Next</Button>
             )}
-            {timerValues[timerSelected].seconds !== seconds && (
+            {timerValues && timerValues[timerSelected].seconds !== seconds && (
               <Button displayType="red" onClick={resetTimer}>
                 Reset
               </Button>

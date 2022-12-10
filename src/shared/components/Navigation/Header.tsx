@@ -1,10 +1,10 @@
 import { useState } from "react";
 import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 
-import Modal from "../Modal/Modal";
+import SettingsModal from "./SettingsModal";
 
 import "./Header.scss";
-import SettingsModal from "./SettingsModal";
+
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
 

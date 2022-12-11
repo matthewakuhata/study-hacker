@@ -51,6 +51,7 @@ const SettingsModal: React.FC<ModalProps> = ({ show, closeModal }) => {
           </div>
         </div>
       )}
+      {/* TODO Add close button and handler */}
       <span>X</span>
     </Modal>
   );

@@ -25,6 +25,7 @@ const TaskList = () => {
   const [showAddTask, setShowAddTask] = useState(false);
   const { tasks, deleteTask, updateTask, createTask } = useTasks();
 
+  // TODO: Make task list orderable react beautiful D&D
   return (
     <TaskContext.Provider value={{ tasks, deleteTask, updateTask, createTask }}>
       <div className="task-list">

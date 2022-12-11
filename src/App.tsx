@@ -5,6 +5,7 @@ import Header from "./shared/components/Navigation/Header";
 import { Pomodoro } from "./pages/Pomodoro";
 import { TimersProvider } from "./pages/Pomodoro/contexts/timers";
 
+// TODO: Maybe add CSSTransition package.
 function App() {
   return (
     <TimersProvider>

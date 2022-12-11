@@ -18,6 +18,7 @@ export type CreateTaskFunction = ({
   pomodoros: number;
 }) => void;
 
+// TODO: Clean up create update and delete functions
 export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
 

@@ -1,20 +1,18 @@
 .button {
-  --bg-color: rgba(255, 255, 255, 0.2);
-  --bg-color-hover: rgba(255, 255, 255, 0.5);
-  margin: 5px;
+  // margin: 5px;
   padding: 5px 15px;
   color: white;
-  background-color: var(--bg-color);
+  background-color: rgba(255, 255, 255, 0.2);
   border: 0;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 1.5rem;
   transition: all 0.2s ease-in-out ;
 }
 
 .button:hover {
   cursor: pointer;
   translate: 0 -1px;
-  background-color: var(--bg-color-hover);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .button--selected {
@@ -28,15 +26,35 @@
 }
 
 .button--green {
-  --bg-color: rgba(0, 102, 0, 0.2);
-  --bg-color-hover: rgba(0, 102, 0, 0.5);
+  background-color: rgba(0, 102, 0, 0.2);
+  &:hover {
+    background-color: rgba(0, 102, 0, 0.5);
+  }
 }
 
 .button--red {
-    --bg-color: rgba(204, 0, 0, 0.2);
-    --bg-color-hover: rgba(204, 0, 0, 0.5);
+  background-color: rgba(204, 0, 0, 0.2);
+  &:hover {
+    background-color: rgba(204, 0, 0, 0.5);
+  }
+}
+
+.button--outline {
+  background-color: transparent;
+  color: var(--color-grey-text);
+  padding: 0;
+  &:hover {
+    cursor: pointer;
+    translate: 0;
+    background-color: transparent;
+    text-decoration: underline;
+  }
 }
 
 .button--s {
-  font-size: 15px;
+  font-size: 1rem;
+}
+
+.button--xs {
+  font-size: 0.8rem;
 }

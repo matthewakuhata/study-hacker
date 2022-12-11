@@ -7,23 +7,24 @@ interface ButtonProps
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   displayType?: string;
-  size?: string;
+  displaySize?: string;
   isSelected?: boolean;
 }
 const Button: React.FC<ButtonProps> = ({
   onClick,
   displayType = "default",
-  size = "m",
+  displaySize = "m",
   isSelected = false,
   children,
+  className,
 }) => {
   return (
     <button
-      className={`button button--${displayType} ${
+      className={`${className} button ${
         isSelected && "button--selected"
-      } button--${size}`}
+      } button--${displayType} button--${displaySize} `}
       onClick={onClick}
     >
       {children}

@@ -56,7 +56,7 @@ const Timer = () => {
                 key={key}
                 onClick={() => selectTimer(key as PomodoroTimersKeys)}
                 isSelected={timerSelected === key}
-                size="s"
+                displaySize="s"
               >
                 {timerValues[key as PomodoroTimersKeys].name}
               </Button>

@@ -1,5 +1,6 @@
 .timer__selection {
   display: flex;
+  gap: 10px;
   flex-direction: row;
   justify-content: center;
   margin: 10px;
@@ -9,6 +10,7 @@
   display: flex;
   justify-content: center;
   margin: 10px;
+  gap: 10px;
 }
 
 .timerDuration {

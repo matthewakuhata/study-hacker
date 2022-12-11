@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SvgIcon } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,12 +9,14 @@ import MenuItem from "@mui/material/MenuItem";
 import "./TaskItem.scss";
 import { DropdownMenu } from "../../../../shared/components/DropdownMenu/DropdownMenu";
 import CreateTask from "./CreateTask";
+import { TaskContext } from "./TaskList";
 
 interface TaskItemProps {
   title: string;
   description: string;
   pomodoros: number;
   isComplete: boolean;
+  id: string;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({
@@ -22,12 +24,14 @@ const TaskItem: React.FC<TaskItemProps> = ({
   description,
   pomodoros,
   isComplete,
+  id,
 }) => {
   const [showFullText, setShowFullText] = useState(false);
   const [complete, setComplete] = useState(isComplete);
   const [showMenu, setShowMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | SVGSVGElement>(null);
   const [editMode, setEditMode] = useState(false);
+  const { deleteTask, updateTask } = useContext(TaskContext);
 
   const handleOpenMenu = (event: React.MouseEvent<SVGSVGElement>) => {
     setAnchorEl(event.currentTarget);
@@ -39,20 +43,36 @@ const TaskItem: React.FC<TaskItemProps> = ({
     setShowMenu(false);
   };
 
-  const deleteTaskHandler = () => {};
-  const saveTaskHandler = () => {};
+  const deleteTaskHandler = () => {
+    deleteTask(id);
+    handleCloseMenu();
+  };
+
+  const completeTaskHandler = () => {
+    setComplete(!isComplete);
+    updateTask(
+      {
+        title,
+        description,
+        pomodoros,
+        isComplete: !isComplete,
+        id,
+      },
+      id
+    );
+  };
 
   return editMode ? (
     <CreateTask
       closeHandler={() => setEditMode(false)}
-      task={{ title, description, pomodoros, isComplete }}
+      task={{ id, title, description, pomodoros, isComplete }}
     />
   ) : (
     <div className={`task-item ${complete && "complete"}`}>
       <div className="task-item__heading">
         <div className="finished-icon__wrapper">
           <SvgIcon
-            onClick={() => setComplete((prev) => !prev)}
+            onClick={completeTaskHandler}
             className={`finished-icon ${complete && "finished"}`}
             component={CheckCircleOutlineIcon}
           />
@@ -99,12 +119,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
               Edit
             </MenuItem>
           )}
-          <MenuItem>
-            <SvgIcon
-              className="icon"
-              onClick={() => {}}
-              component={DeleteIcon}
-            />
+          <MenuItem onClick={deleteTaskHandler}>
+            <SvgIcon className="icon" component={DeleteIcon} />
             Delete
           </MenuItem>
         </DropdownMenu>

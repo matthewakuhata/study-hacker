@@ -19,10 +19,6 @@
 
   h2 {
     margin: 0;
-    max-width: 300px;
-    &.complete {
-      text-decoration: line-through;
-    }
   }
 
   p {
@@ -49,25 +45,12 @@
     top: 1rem;
     right: 1rem;
 
-    &.show {
-      opacity: 1;
-    }
-
     .task-item__menu-item {
       font-size: 12px;
 
       .icon {
         width: 10px;
         height: 10px;
-      }
-    }
-
-    .three-dot-icon {
-      color: var(--black-color);
-
-      &:hover {
-        color: var(--black-hover);
-        cursor: pointer;
       }
     }
 
@@ -91,9 +74,37 @@
     opacity: 1.0;
   }
 
+  &:hover .task-item__heading .three-dot-icon {
+    opacity: 1.0;
+  }
+
   .task-item__heading {
     display: flex;
     align-items: center;
+
+    h2 {
+      flex-grow: 1;
+    }
+
+    span {
+      color: var(--color-grey-text);
+      font-weight: bold;
+    }
+
+    .three-dot-icon {
+      color: var(--black-color);
+      transition: opacity 0.5s ease-in-out 0.2s;
+      opacity: 0;
+
+      &.show {
+        opacity: 1;
+      }
+
+      &:hover {
+        color: var(--black-hover);
+        cursor: pointer;
+      }
+    }
 
     .finished-icon__wrapper {
       height: 1.5rem;

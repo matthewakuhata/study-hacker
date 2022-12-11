@@ -78,6 +78,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
           />
         </div>
         <h2>{title}</h2>
+        <span>0/{pomodoros}</span>
+        <SvgIcon
+          className={`three-dot-icon ${showMenu && "show"}`}
+          onClick={handleOpenMenu}
+          component={MoreVertIcon}
+        />
       </div>
       <p
         className={showFullText ? "" : "clamp"}
@@ -91,40 +97,29 @@ const TaskItem: React.FC<TaskItemProps> = ({
         <p>Pomodoros: {pomodoros}</p>
         <p>Total Time: {calculateTotalTime()} </p>
       </div>
-      <div className={`task-item__menu--wrapper ${showMenu && "show"}`}>
-        <SvgIcon
-          className="three-dot-icon"
-          onClick={handleOpenMenu}
-          component={MoreVertIcon}
-        />
-        <DropdownMenu
-          className="task-item__menu"
-          anchorEl={anchorEl}
-          open={showMenu}
-          onClose={handleCloseMenu}
-        >
-          {!complete && (
-            <MenuItem
-              onClick={() => {
-                setEditMode(true);
-                handleCloseMenu();
-              }}
-              className="task-item__menu-item"
-            >
-              <SvgIcon
-                className="icon"
-                onClick={() => {}}
-                component={EditIcon}
-              />
-              Edit
-            </MenuItem>
-          )}
-          <MenuItem onClick={deleteTaskHandler}>
-            <SvgIcon className="icon" component={DeleteIcon} />
-            Delete
+      <DropdownMenu
+        className="task-item__menu"
+        anchorEl={anchorEl}
+        open={showMenu}
+        onClose={handleCloseMenu}
+      >
+        {!complete && (
+          <MenuItem
+            onClick={() => {
+              setEditMode(true);
+              handleCloseMenu();
+            }}
+            className="task-item__menu-item"
+          >
+            <SvgIcon className="icon" onClick={() => {}} component={EditIcon} />
+            Edit
           </MenuItem>
-        </DropdownMenu>
-      </div>
+        )}
+        <MenuItem onClick={deleteTaskHandler}>
+          <SvgIcon className="icon" component={DeleteIcon} />
+          Delete
+        </MenuItem>
+      </DropdownMenu>
     </div>
   );
 };

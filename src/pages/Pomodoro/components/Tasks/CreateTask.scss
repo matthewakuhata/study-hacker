@@ -23,13 +23,16 @@
 .create-task__title{
   font-size: 24px;
   border-radius: 0;
-  text-align: center;
+  text-align: left;
   background-color: inherit;
   font-weight: bold;
   color: var(--black-color);
+  padding: 0;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
 
-  &:focus {
-    border-bottom: 2px solid var(--color-grey);
+  &:hover {
+    border-bottom: 1px solid var(--color-grey);
   }
 }
 
@@ -90,7 +93,7 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   height: 3rem;
-  background-color: var(--color-grey);
+  background-color: var(--black-color);
   box-shadow: -6px 0px 0px var(--black-color);
 
   .create-task__actions__button {

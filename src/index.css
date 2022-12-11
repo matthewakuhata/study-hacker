@@ -1,5 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+:root {
+  --white-color: #faf9f6;
+  --black-color: #313639;
+  --black-hover: #313639b5;
+  --green-color: rgb(52, 137, 52);
+  --red-color: rgb(201, 15, 15);
+  --red-hover: rgba(201, 15, 15, 0.636);
+}
+
 body {
   margin: 0;
   font-family: "Outfit", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
@@ -8,15 +17,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+hr {
+  border: 0;
+  border-top: 1px solid rgb(187, 187, 187);
+  width: 100%;
 }
 
 * {
-  font-weight: bolder;
+  font-weight: 300;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: bold;
+}
+
+h3 {
+  font-weight: bold;
 }
 
 button {
-  font-weight: bolder;
+  font-weight: bold;
 }

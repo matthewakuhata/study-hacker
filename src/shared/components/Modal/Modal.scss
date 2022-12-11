@@ -1,9 +1,11 @@
 .modal-popup {
   --width: 350px;
-  min-width: var(--width);
-  border-radius: 5px;
-  z-index: 100;
+  --padding: 10px;
   position: fixed;
   top: 22vh;
-  left: calc(50% - var(--width) / 2);
+  z-index: 100;
+  padding: var(--padding);
+  border-radius: 5px;
+  min-width: var(--width);
+  left: calc(50% - (var(--width) + var(--padding) * 2) / 2);
 }

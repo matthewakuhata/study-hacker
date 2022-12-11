@@ -1,0 +1,60 @@
+.create-task {
+  label {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+}
+
+.create-task__title{
+  font-size: 24px;
+  border-radius: 0;
+  text-align: center;
+  background-color: inherit;
+  font-weight: bold;
+
+  &:focus {
+    border-bottom: 2px solid var(--color-grey);
+  }
+}
+
+.create-task__desc {}
+
+.create-task__pomo {
+  display: flex;
+}
+
+.create-task__pomo__input {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &[type=number] {
+    -moz-appearance: textfield;
+    /* Firefox */
+  }
+
+  width: 2rem;
+  font-size: 1rem;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.create-task__pomo__button {
+  background-color: var(--color-grey);
+  color: var(--color-black);
+  width: calc(1rem + 10px);
+  margin-inline: 1px;
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: var(--color-grey);
+  }
+}
+
+.create-task__note {
+  align-self: flex-start;
+  margin-block: 10px;
+}

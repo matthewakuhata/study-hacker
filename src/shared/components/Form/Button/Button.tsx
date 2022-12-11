@@ -19,12 +19,18 @@ const Button: React.FC<ButtonProps> = ({
   isSelected = false,
   children,
   className,
+  color,
 }) => {
   return (
     <button
-      className={`${className} button ${
-        isSelected && "button--selected"
-      } button--${displayType} button--${displaySize} `}
+      className={`
+        ${className}
+        ${isSelected && "button--selected"}
+        button--${displayType}
+        button--${color}
+        button--${displaySize}
+        button
+      `}
       onClick={onClick}
     >
       {children}

@@ -1,80 +1,56 @@
-import React, { useState } from "react";
-import CreateTask from "./CreateTask";
-import TaskItem from "./TaskItem";
+import { createContext, useState } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-import "./TaskList.scss";
-export type Task = {
-  title: string;
-  description: string;
-  pomodoros: number;
-  isComplete: boolean;
-};
+import { CreateTaskFunction, Task, useTasks } from "../../hooks/useTasks";
+import CreateTask from "./CreateTask";
+import TaskItem from "./TaskItem";
 
-const TASKS: Task[] = [
-  {
-    title: "Do homework",
-    description: "Math101 test due",
-    pomodoros: 2,
-    isComplete: false,
-  },
-  {
-    title: "Write Essay",
-    description:
-      "1500 words to be written before Tuesday1500 words to be written before Tuesday1500 words to be written before Tuesday1500 words to be written before Tuesday1500 words to be written before Tuesday1500 words to be written before Tuesday1500 words to be written before Tuesday",
-    pomodoros: 3,
-    isComplete: true,
-  },
-  {
-    title: "Cook Dinner",
-    description: "roast lamb with veggies",
-    pomodoros: 4,
-    isComplete: false,
-  },
-  {
-    title: "Cook Dinner",
-    description: "roast lamb with veggies",
-    pomodoros: 4,
-    isComplete: false,
-  },
-  {
-    title: "Cook Dinner",
-    description: "roast lamb with veggies",
-    pomodoros: 4,
-    isComplete: false,
-  },
-  {
-    title: "Cook DinnerCook DinnerCook Dinner",
-    description: "roast lamb with veggies",
-    pomodoros: 4,
-    isComplete: true,
-  },
-];
+import "./TaskList.scss";
+
+interface TaskContextArgs {
+  tasks: Task[];
+  deleteTask: (id: string) => void;
+  updateTask: (task: Task, id: string) => void;
+  createTask: CreateTaskFunction;
+}
+
+export const TaskContext = createContext<TaskContextArgs>({
+  tasks: [],
+  deleteTask: () => {},
+  updateTask: () => {},
+  createTask: () => {},
+});
+
 const TaskList = () => {
   const [showAddTask, setShowAddTask] = useState(false);
+  const { tasks, deleteTask, updateTask, createTask } = useTasks();
 
   return (
-    <div className="task-list">
-      <h2>My Tasks</h2>
-      <hr />
-      <ul>
-        {TASKS.sort((a, b) => (a.isComplete ? 1 : -1)).map((task, index) => (
-          <TaskItem key={`${task.title}-${index}`} {...task} />
-        ))}
+    <TaskContext.Provider value={{ tasks, deleteTask, updateTask, createTask }}>
+      <div className="task-list">
+        <h2>My Tasks</h2>
+        <hr />
+        <ul>
+          {tasks
+            .sort((a, _) => (a.isComplete ? 1 : -1))
+            .map((task) => (
+              <TaskItem key={task.id} {...task} />
+            ))}
 
-        {showAddTask ? (
-          <CreateTask closeHandler={() => setShowAddTask(false)} />
-        ) : (
-          <div
-            onClick={() => setShowAddTask(true)}
-            className="task-list__add-task"
-          >
-            <AddCircleOutlineIcon />
-            Add Task
-          </div>
-        )}
-      </ul>
-    </div>
+          {showAddTask ? (
+            <CreateTask closeHandler={() => setShowAddTask(false)} />
+          ) : (
+            <div
+              onClick={() => setShowAddTask(true)}
+              className="task-list__add-task"
+            >
+              <AddCircleOutlineIcon />
+              Add Task
+            </div>
+          )}
+        </ul>
+      </div>
+    </TaskContext.Provider>
   );
 };
 

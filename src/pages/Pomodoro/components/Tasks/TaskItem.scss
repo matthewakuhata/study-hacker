@@ -62,17 +62,18 @@
       }
     }
 
+    .three-dot-icon {
+      color: var(--black-color);
+
+      &:hover {
+        color: var(--black-hover);
+        cursor: pointer;
+      }
+    }
+
     .icon {
       width: 20px;
       height: 20px;
-
-      &.delete {
-        color: var(--red-color);
-      }
-
-      &.delete:hover {
-        color: var(--red-hover);
-      }
 
       &:hover {
         cursor: pointer;

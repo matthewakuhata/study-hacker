@@ -3,7 +3,7 @@ import { SvgIcon } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import MenuIcon from "@mui/icons-material/Menu";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
 
 import "./TaskItem.scss";
@@ -67,9 +67,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
       </div>
       <div className={`task-item__menu--wrapper ${showMenu && "show"}`}>
         <SvgIcon
-          className="icon"
+          className="three-dot-icon"
           onClick={handleOpenMenu}
-          component={MenuIcon}
+          component={MoreVertIcon}
         />
         <DropdownMenu
           className="task-item__menu"

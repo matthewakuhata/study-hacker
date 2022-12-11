@@ -33,7 +33,7 @@ const TaskList = () => {
         <hr />
         <ul>
           {tasks
-            .sort((a, _) => (a.isComplete ? 1 : -1))
+            .sort((a, b) => (a.isComplete ? 1 : b.isComplete ? -1 : 1))
             .map((task) => (
               <TaskItem key={task.id} {...task} />
             ))}

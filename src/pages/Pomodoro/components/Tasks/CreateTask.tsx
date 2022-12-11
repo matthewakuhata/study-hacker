@@ -15,7 +15,7 @@ interface CreateTaskProps {
   closeHandler: () => void;
   task?: Task;
 }
-
+//TODO: Add custom textarea for note
 const CreateTask: React.FC<CreateTaskProps> = ({ closeHandler, task }) => {
   const [hasNote, setHasNote] = useState(task && task.description !== "");
   const pomoRef = createRef<HTMLInputElement>();
@@ -114,9 +114,7 @@ const CreateTask: React.FC<CreateTaskProps> = ({ closeHandler, task }) => {
         <Button
           onClick={onSaveHandler}
           className="create-task__actions__button"
-          color="black"
           displaySize="s"
-          displayType="outline"
         >
           Save
         </Button>

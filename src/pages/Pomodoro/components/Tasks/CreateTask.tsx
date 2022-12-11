@@ -1,11 +1,22 @@
-import React, { createRef, useRef, useState } from "react";
-import { Button, Input } from "../../../../shared/components/Form";
+import React, { createRef, useState } from "react";
+
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import CloseIcon from "@mui/icons-material/Close";
+import { SvgIcon } from "@mui/material";
+
+import { Button, Input } from "../../../../shared/components/Form";
+import { Task } from "./TaskList";
+
 import "./CreateTask.scss";
 
-const CreateTask = () => {
-  const [hasNote, setHasNote] = useState(false);
+interface CreateTaskProps {
+  closeHandler: () => void;
+  task?: Task;
+}
+
+const CreateTask: React.FC<CreateTaskProps> = ({ closeHandler, task }) => {
+  const [hasNote, setHasNote] = useState(task && task.description !== "");
   const pomoRef = createRef<HTMLInputElement>();
 
   const updatePomos = (val: number) => {
@@ -17,44 +28,76 @@ const CreateTask = () => {
     pomoRef.current.value = newValue.toString();
   };
 
+  const onSaveHandler = () => {
+    //Do somethign to save
+    closeHandler();
+  };
+
   return (
-    <div className="create-task task-item">
-      <Input
-        placeholder="What are you working on?"
-        className="create-task__title"
-        type="text"
-      />
-      <label>Est. Pomodoro's</label>
-      <div className="create-task__pomo">
+    <div>
+      <div className="create-task">
         <Input
-          ref={pomoRef}
-          defaultValue={1}
-          min={1}
-          className="create-task__pomo__input"
-          type="number"
+          placeholder="What are you working on?"
+          className="create-task__title"
+          defaultValue={task?.title}
+          type="text"
         />
+        <label>Est. Pomodoro's</label>
+        <div className="create-task__pomo">
+          <Input
+            ref={pomoRef}
+            defaultValue={task?.pomodoros || 1}
+            min={1}
+            className="create-task__pomo__input"
+            type="number"
+          />
+          <Button
+            onClick={() => updatePomos(1)}
+            className="create-task__pomo__button"
+          >
+            <KeyboardArrowUpIcon />
+          </Button>
+          <Button
+            onClick={() => updatePomos(-1)}
+            className="create-task__pomo__button"
+          >
+            <KeyboardArrowDownIcon />
+          </Button>
+        </div>
+        {hasNote ? (
+          <Input
+            placeholder="Describe your task..."
+            className="create-task__desc"
+            type="text"
+            defaultValue={task?.description}
+          />
+        ) : (
+          <Button
+            className="create-task__note"
+            displaySize="xs"
+            displayType="text"
+            onClick={() => setHasNote((prev) => !prev)}
+          >
+            + Add Note
+          </Button>
+        )}
+        <SvgIcon
+          onClick={closeHandler}
+          component={CloseIcon}
+          className="close"
+        />
+      </div>
+      <div className="create-task__actions">
         <Button
-          onClick={() => updatePomos(1)}
-          className="create-task__pomo__button"
+          onClick={onSaveHandler}
+          className="create-task__actions__button"
+          color="black"
+          displaySize="s"
+          displayType="outline"
         >
-          <KeyboardArrowUpIcon />
-        </Button>
-        <Button
-          onClick={() => updatePomos(-1)}
-          className="create-task__pomo__button"
-        >
-          <KeyboardArrowDownIcon />
+          Save
         </Button>
       </div>
-      <Button
-        className="create-task__note"
-        displaySize="xs"
-        displayType="outline"
-        onClick={() => setHasNote((prev) => !prev)}
-      >
-        {hasNote ? "Remove Note" : "+ Add Note"}
-      </Button>
-      {hasNote && <Input className="create-task__desc" type="text" />}
     </div>
   );
 };

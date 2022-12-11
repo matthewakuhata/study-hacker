@@ -1,4 +1,19 @@
 .create-task {
+  position: relative;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  background-color: var(--white-color);
+  color: var(--black-color);
+  padding: 1rem;
+  width: 400px;
+  box-shadow: -6px 0px 0px var(--black-color);
+  transition: all 0.5s ease-in-out;
   label {
     margin-top: 10px;
     font-weight: bold;
@@ -11,16 +26,22 @@
   text-align: center;
   background-color: inherit;
   font-weight: bold;
+  color: var(--black-color);
 
   &:focus {
     border-bottom: 2px solid var(--color-grey);
   }
 }
 
-.create-task__desc {}
+.create-task__desc {
+  margin-block: 1rem;
+  font-size: 1rem;
+  color: var(--black-color);
+}
 
 .create-task__pomo {
   display: flex;
+  color: var(--black-color);
 }
 
 .create-task__pomo__input {
@@ -57,4 +78,36 @@
 .create-task__note {
   align-self: flex-start;
   margin-block: 10px;
+}
+
+.create-task__actions {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 3rem;
+  background-color: var(--color-grey);
+  box-shadow: -6px 0px 0px var(--black-color);
+
+  .create-task__actions__button {
+    margin: 1rem;
+  }
+}
+
+.close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--red-color);
+  border: 1px solid;
+  border-radius: 5px;
+
+  &:hover {
+    color: var(--red-hover);
+    cursor: pointer;
+  }
 }

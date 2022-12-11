@@ -1,0 +1,131 @@
+.task-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  background-color: var(--white-color);
+  color: var(--black-color);
+  border-radius: 5px;
+  padding: 1rem;
+  width: 400px;
+  box-shadow: -6px 0px 0px var(--black-color);
+  transition: all 0.5s ease-in-out;
+
+  &.complete {
+    text-decoration: line-through;
+    box-shadow: -6px 0px 0px var(--green-color);
+  }
+
+  h2 {
+    margin: 0;
+    max-width: 300px;
+    &.complete {
+      text-decoration: line-through;
+    }
+  }
+
+  p {
+    margin: 5px;
+    font-weight: 300;
+    flex-grow: 1;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  p.clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .task-item__menu--wrapper {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out 0.2s;
+    top: 1rem;
+    right: 1rem;
+
+    &.show {
+      opacity: 1;
+    }
+
+    .task-item__menu-item {
+      font-size: 12px;
+
+      .icon {
+        width: 10px;
+        height: 10px;
+      }
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+
+      &.delete {
+        color: var(--red-color);
+      }
+
+      &.delete:hover {
+        color: var(--red-hover);
+      }
+
+      &:hover {
+        cursor: pointer;
+        color: var(--black-hover);
+      }
+    }
+  }
+
+  .task-item__menu {
+    background-color: var(--white-color);
+    color: var(--black-color);
+  }
+
+  &:hover .task-item__menu--wrapper {
+    opacity: 1.0;
+  }
+
+  .task-item__heading {
+    display: flex;
+    align-items: center;
+
+    .finished-icon__wrapper {
+      height: 1.5rem;
+      width: 1.5rem;
+      .finished-icon {
+        height: 1.5rem;
+        width: 1.5rem;
+        transition: all 0.3s ease-in-out;
+
+        &.finished {
+          color: var(--green-color);
+        }
+
+        &:hover {
+          color: var(--green-color);
+          cursor: pointer;
+        }
+      }
+    }
+   }
+
+  .task-item__time-totals {
+    display: flex;
+    align-items: center;
+    p {
+      margin: 5px;
+    }
+  }
+}
+
+
+@media screen and (max-width: 800px) {
+  .task-item .task-item__menu--wrapper {
+      opacity: 1;
+  }
+}

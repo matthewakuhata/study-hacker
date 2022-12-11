@@ -74,11 +74,7 @@ export const useTasks = () => {
     });
   };
 
-  const updateTask = (task: Task, id: string) => {
-    setAndSaveTasks(task, id);
-  };
-
-  const setAndSaveTasks = (newTask: Task, id?: string) => {
+  const updateTask = (newTask: Task, id: string) => {
     setTasks((prev) => {
       let indexOf = -1;
       prev.filter((task, index) => {

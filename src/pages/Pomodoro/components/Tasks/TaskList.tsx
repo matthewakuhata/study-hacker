@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import CreateTask from "./CreateTask";
 import TaskItem from "./TaskItem";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import "./TaskList.scss";
-type Task = {
+export type Task = {
   title: string;
   description: string;
   pomodoros: number;
@@ -50,15 +51,28 @@ const TASKS: Task[] = [
   },
 ];
 const TaskList = () => {
+  const [showAddTask, setShowAddTask] = useState(false);
+
   return (
     <div className="task-list">
       <h2>My Tasks</h2>
       <hr />
-      <CreateTask />
       <ul>
-        {TASKS.map((task, index) => (
+        {TASKS.sort((a, b) => (a.isComplete ? 1 : -1)).map((task, index) => (
           <TaskItem key={`${task.title}-${index}`} {...task} />
         ))}
+
+        {showAddTask ? (
+          <CreateTask closeHandler={() => setShowAddTask(false)} />
+        ) : (
+          <div
+            onClick={() => setShowAddTask(true)}
+            className="task-list__add-task"
+          >
+            <AddCircleOutlineIcon />
+            Add Task
+          </div>
+        )}
       </ul>
     </div>
   );

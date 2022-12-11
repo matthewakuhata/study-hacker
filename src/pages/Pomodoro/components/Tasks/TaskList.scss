@@ -15,10 +15,31 @@
     gap: 1rem;
     justify-content: center;
     align-items: center;
-
-
     padding: 0;
     list-style-type: none;
+  }
+}
+
+.task-list__add-task {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  border: dashed 4px var(--color-grey-text);
+  color: var(--color-grey-text);
+  background-color: #5a656c6e;
+  border-radius: 5px;
+  padding: 1rem;
+  width: 390px;
+  height: 50px;
+  font-weight: bold;
+  &:hover {
+    cursor: pointer;
+    color:rgb(206, 206, 206);
+    border: dashed 4px rgb(206, 206, 206);
+    background-color: #5a656c71;
   }
 }
 

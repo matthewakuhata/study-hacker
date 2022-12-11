@@ -80,7 +80,7 @@
 
   .task-item__heading {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
 
     h2 {
       flex-grow: 1;
@@ -89,12 +89,14 @@
     span {
       color: var(--color-grey-text);
       font-weight: bold;
+      padding-block: 4px;
     }
 
     .three-dot-icon {
       color: var(--black-color);
       transition: opacity 0.5s ease-in-out 0.2s;
       opacity: 0;
+      padding-block: 2px;
 
       &.show {
         opacity: 1;
@@ -109,6 +111,7 @@
     .finished-icon__wrapper {
       height: 1.5rem;
       width: 1.5rem;
+      padding-block: 4px;
       .finished-icon {
         height: 1.5rem;
         width: 1.5rem;
@@ -137,7 +140,7 @@
 
 
 @media screen and (max-width: 800px) {
-  .task-item .task-item__menu--wrapper {
+  .task-item .task-item__heading .three-dot-icon {
       opacity: 1;
   }
 }

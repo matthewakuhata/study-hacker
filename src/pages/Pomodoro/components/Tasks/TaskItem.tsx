@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 import "./TaskItem.scss";
 import { DropdownMenu } from "../../../../shared/components/DropdownMenu/DropdownMenu";
+import CreateTask from "./CreateTask";
 
 interface TaskItemProps {
   title: string;
@@ -26,7 +27,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const [complete, setComplete] = useState(isComplete);
   const [showMenu, setShowMenu] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | SVGSVGElement>(null);
-  const open = Boolean(anchorEl);
+  const [editMode, setEditMode] = useState(false);
 
   const handleOpenMenu = (event: React.MouseEvent<SVGSVGElement>) => {
     setAnchorEl(event.currentTarget);
@@ -41,7 +42,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const deleteTaskHandler = () => {};
   const saveTaskHandler = () => {};
 
-  return (
+  return editMode ? (
+    <CreateTask
+      closeHandler={() => setEditMode(false)}
+      task={{ title, description, pomodoros, isComplete }}
+    />
+  ) : (
     <div className={`task-item ${complete && "complete"}`}>
       <div className="task-item__heading">
         <div className="finished-icon__wrapper">
@@ -77,10 +83,22 @@ const TaskItem: React.FC<TaskItemProps> = ({
           open={showMenu}
           onClose={handleCloseMenu}
         >
-          <MenuItem className="task-item__menu-item">
-            <SvgIcon className="icon" onClick={() => {}} component={EditIcon} />
-            Edit
-          </MenuItem>
+          {!complete && (
+            <MenuItem
+              onClick={() => {
+                setEditMode(true);
+                handleCloseMenu();
+              }}
+              className="task-item__menu-item"
+            >
+              <SvgIcon
+                className="icon"
+                onClick={() => {}}
+                component={EditIcon}
+              />
+              Edit
+            </MenuItem>
+          )}
           <MenuItem>
             <SvgIcon
               className="icon"

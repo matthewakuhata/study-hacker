@@ -10,6 +10,7 @@ import "./TaskItem.scss";
 import { DropdownMenu } from "../../../../shared/components/DropdownMenu/DropdownMenu";
 import CreateTask from "./CreateTask";
 import { TaskContext } from "./TaskList";
+import { convertToDisplayTime } from "../../../../helpers/convertToDisplayTime";
 
 interface TaskItemProps {
   title: string;
@@ -94,8 +95,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
         {description}
       </p>
       <div className="task-item__time-totals">
-        <p>Pomodoros: {pomodoros}</p>
-        <p>Total Time: {calculateTotalTime()} </p>
+        {/* <p>Pomodoros: {pomodoros}</p> */}
+        <p>Est. Remaining: {calculateTotalTime(pomodoros)} </p>
       </div>
       <DropdownMenu
         className="task-item__menu"
@@ -124,8 +125,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
   );
 };
 
-function calculateTotalTime() {
-  return 1;
+function calculateTotalTime(pomodoros: number) {
+  const timers = JSON.parse(localStorage.getItem("pomo-timers") || "{}");
+  return convertToDisplayTime(
+    pomodoros * (timers?.pomodoro?.seconds || 0),
+    "hms"
+  );
 }
 
 export default TaskItem;

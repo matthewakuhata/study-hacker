@@ -5,6 +5,7 @@ export type Task = {
   description: string;
   pomodoros: number;
   isComplete: boolean;
+  loggedTime: number;
   id: string;
 };
 
@@ -40,6 +41,7 @@ export const useTasks = () => {
       description: description || "",
       pomodoros,
       isComplete: false,
+      loggedTime: 0,
       id: Date.now().toString(),
     };
 

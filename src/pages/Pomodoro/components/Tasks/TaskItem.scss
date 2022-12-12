@@ -138,9 +138,14 @@
   }
 }
 
-
 @media screen and (max-width: 800px) {
   .task-item .task-item__heading .three-dot-icon {
       opacity: 1;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .task-item {
+    width: 300px;
   }
 }

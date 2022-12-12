@@ -43,10 +43,8 @@
   }
 }
 
-@media screen and (max-width: 600px) {
-  .task-list{
-    ul {
-      grid-template-columns: repeat(1, minmax(100px, 400px));
-    }
+@media screen and (max-width: 500px) {
+  .task-list__add-task {
+    width: 290px;
   }
 }

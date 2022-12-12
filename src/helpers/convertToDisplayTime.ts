@@ -24,13 +24,11 @@ export const convertToDisplayTime = (
         ? `${hrsDisplay}:${minsDisplay}:${secsDisplay}`
         : `${minsDisplay}:${secsDisplay}`;
     case "hms":
-      return Object.keys(parts)
-        .map((key) =>
-          parts[key] > 0
-            ? parts[key].toString() + (parts[key] > 1 ? key + "s" : key)
-            : ""
-        )
-        .join(" ");
+      let hms = hr ? hr + "h" : "";
+      hms += min ? ` ${min}m` : "";
+      hms += sec ? ` ${sec}s` : "";
+
+      return hms;
     default:
       return `${hrsDisplay}:${minsDisplay}:${secsDisplay}`;
   }

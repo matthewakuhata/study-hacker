@@ -5,8 +5,11 @@ export const convertToDisplayTime = (
   if (seconds <= 0) {
     return "00:00";
   }
-  const hr = Math.floor(seconds / 3600);
-  const min = Math.floor((seconds / 3600 - hr) * 60);
+
+  const totalMinutes = Math.floor(seconds / 60);
+
+  const hr = Math.floor(totalMinutes / 60);
+  const min = totalMinutes % 60;
   const sec = Math.floor(seconds % 60);
 
   const parts: { [key: string]: number } = { hr, min, sec };

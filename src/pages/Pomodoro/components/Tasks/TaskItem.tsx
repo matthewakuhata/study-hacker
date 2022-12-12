@@ -1,4 +1,6 @@
 import React, { useContext, useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import { SvgIcon } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,6 +20,7 @@ interface TaskItemProps {
   pomodoros: number;
   isComplete: boolean;
   id: string;
+  index: number;
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({
@@ -26,6 +29,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   pomodoros,
   isComplete,
   id,
+  index,
 }) => {
   const [showFullText, setShowFullText] = useState(false);
   const [complete, setComplete] = useState(isComplete);
@@ -53,11 +57,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
     setComplete(!isComplete);
     updateTask(
       {
-        title,
-        description,
-        pomodoros,
         isComplete: !isComplete,
-        id,
       },
       id
     );
@@ -69,59 +69,72 @@ const TaskItem: React.FC<TaskItemProps> = ({
       task={{ id, title, description, pomodoros, isComplete }}
     />
   ) : (
-    <div className={`task-item ${complete && "complete"}`}>
-      <div className="task-item__heading">
-        <div className="finished-icon__wrapper">
-          <SvgIcon
-            onClick={completeTaskHandler}
-            className={`finished-icon ${complete && "finished"}`}
-            component={CheckCircleOutlineIcon}
-          />
-        </div>
-        <h2>{title}</h2>
-        <span>0/{pomodoros}</span>
-        <SvgIcon
-          className={`three-dot-icon ${showMenu && "show"}`}
-          onClick={handleOpenMenu}
-          component={MoreVertIcon}
-        />
-      </div>
-      <p
-        className={showFullText ? "" : "clamp"}
-        onClick={() => {
-          setShowFullText((prev) => !prev);
-        }}
-      >
-        {description}
-      </p>
-      <div className="task-item__time-totals">
-        {/* <p>Pomodoros: {pomodoros}</p> */}
-        <p>Est. Remaining: {calculateTotalTime(pomodoros)} </p>
-      </div>
-      <DropdownMenu
-        className="task-item__menu"
-        anchorEl={anchorEl}
-        open={showMenu}
-        onClose={handleCloseMenu}
-      >
-        {!complete && (
-          <MenuItem
+    <Draggable key={id} draggableId={id} index={index}>
+      {(provided) => (
+        <li
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          className={`task-item ${complete && "complete"}`}
+        >
+          <div className="task-item__heading">
+            <div className="finished-icon__wrapper">
+              <SvgIcon
+                onClick={completeTaskHandler}
+                className={`finished-icon ${complete && "finished"}`}
+                component={CheckCircleOutlineIcon}
+              />
+            </div>
+            <h2>{title}</h2>
+            <span>0/{pomodoros}</span>
+            <SvgIcon
+              className={`three-dot-icon ${showMenu && "show"}`}
+              onClick={handleOpenMenu}
+              component={MoreVertIcon}
+            />
+          </div>
+          <p
+            className={showFullText ? "" : "clamp"}
             onClick={() => {
-              setEditMode(true);
-              handleCloseMenu();
+              setShowFullText((prev) => !prev);
             }}
-            className="task-item__menu-item"
           >
-            <SvgIcon className="icon" onClick={() => {}} component={EditIcon} />
-            Edit
-          </MenuItem>
-        )}
-        <MenuItem onClick={deleteTaskHandler}>
-          <SvgIcon className="icon" component={DeleteIcon} />
-          Delete
-        </MenuItem>
-      </DropdownMenu>
-    </div>
+            {description}
+          </p>
+          <div className="task-item__time-totals">
+            {/* <p>Pomodoros: {pomodoros}</p> */}
+            <p>Est. Remaining: {calculateTotalTime(pomodoros)} </p>
+          </div>
+          <DropdownMenu
+            className="task-item__menu"
+            anchorEl={anchorEl}
+            open={showMenu}
+            onClose={handleCloseMenu}
+          >
+            {!complete && (
+              <MenuItem
+                onClick={() => {
+                  setEditMode(true);
+                  handleCloseMenu();
+                }}
+                className="task-item__menu-item"
+              >
+                <SvgIcon
+                  className="icon"
+                  onClick={() => {}}
+                  component={EditIcon}
+                />
+                Edit
+              </MenuItem>
+            )}
+            <MenuItem onClick={deleteTaskHandler}>
+              <SvgIcon className="icon" component={DeleteIcon} />
+              Delete
+            </MenuItem>
+          </DropdownMenu>
+        </li>
+      )}
+    </Draggable>
   );
 };
 

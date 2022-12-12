@@ -14,9 +14,19 @@
   width: 400px;
   box-shadow: -6px 0px 0px var(--black-color);
   transition: all 0.5s ease-in-out;
+
   label {
     margin-top: 10px;
     font-weight: bold;
+  }
+
+  header {
+    display: flex;
+
+    input {
+      flex-grow: 1;
+      margin-right: 5px;
+    }
   }
 }
 
@@ -102,7 +112,6 @@
 }
 
 .close {
-  position: absolute;
   top: 1rem;
   right: 1rem;
   color: var(--red-color);

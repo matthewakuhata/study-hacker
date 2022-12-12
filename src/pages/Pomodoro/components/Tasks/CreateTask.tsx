@@ -13,7 +13,7 @@ import { TaskContext } from "./TaskList";
 
 interface CreateTaskProps {
   closeHandler: () => void;
-  task?: Task;
+  task?: Partial<Task>;
 }
 //TODO: Add custom textarea for note
 const CreateTask: React.FC<CreateTaskProps> = ({ closeHandler, task }) => {
@@ -36,7 +36,6 @@ const CreateTask: React.FC<CreateTaskProps> = ({ closeHandler, task }) => {
     if (task && task.id) {
       updateTask(
         {
-          ...task,
           title: titleRef.current?.value || "",
           description: noteRef.current?.value || "",
           pomodoros: parseInt(pomoRef.current?.value || "1"),
@@ -57,13 +56,20 @@ const CreateTask: React.FC<CreateTaskProps> = ({ closeHandler, task }) => {
   return (
     <div>
       <div className="create-task">
-        <Input
-          ref={titleRef}
-          placeholder="What are you working on?"
-          className="create-task__title"
-          defaultValue={task?.title}
-          type="text"
-        />
+        <header>
+          <Input
+            ref={titleRef}
+            placeholder="What are you working on?"
+            className="create-task__title"
+            defaultValue={task?.title}
+            type="text"
+          />
+          <SvgIcon
+            onClick={closeHandler}
+            component={CloseIcon}
+            className="close"
+          />
+        </header>
         <label>Est. Pomodoro's</label>
         <div className="create-task__pomo">
           <Input
@@ -104,11 +110,6 @@ const CreateTask: React.FC<CreateTaskProps> = ({ closeHandler, task }) => {
             + Add Note
           </Button>
         )}
-        <SvgIcon
-          onClick={closeHandler}
-          component={CloseIcon}
-          className="close"
-        />
       </div>
       <div className="create-task__actions">
         <Button

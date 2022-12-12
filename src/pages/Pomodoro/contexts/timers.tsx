@@ -27,12 +27,20 @@ export const initialTimersValue = {
 
 interface TimersContextArgs {
   timerValues: PomodoroTimers;
+  isActive: boolean;
+  elapsedTime: number;
   updateTimerValue: UpdateTimerValueFunction;
+  toggleIsActive: (value?: boolean) => void;
+  setElapsedTime: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const TimersContext = createContext<TimersContextArgs>({
   timerValues: initialTimersValue,
+  isActive: false,
+  elapsedTime: 0,
   updateTimerValue: () => {},
+  toggleIsActive: (_) => {},
+  setElapsedTime: () => {},
 });
 
 export const useTimers = () => {
@@ -47,6 +55,8 @@ export const useTimers = () => {
 
 export const TimersProvider = (props: any) => {
   const [timerValues, setTimerValues] = useState<PomodoroTimers | null>();
+  const [isActive, setIsActive] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   const updateTimerValue: UpdateTimerValueFunction = (key, value) => {
     setTimerValues((prev) => {
@@ -60,6 +70,14 @@ export const TimersProvider = (props: any) => {
     });
   };
 
+  const toggleIsActive = (value?: boolean) => {
+    if (value != null) {
+      setIsActive(value);
+    } else {
+      setIsActive((prev) => !prev);
+    }
+  };
+
   useEffect(() => {
     const timers = JSON.parse(localStorage.getItem("pomo-timers") || "[]");
     if (!timers) {
@@ -71,7 +89,14 @@ export const TimersProvider = (props: any) => {
 
   return (
     <TimersContext.Provider
-      value={{ timerValues, updateTimerValue }}
+      value={{
+        timerValues,
+        isActive,
+        elapsedTime,
+        setElapsedTime,
+        toggleIsActive,
+        updateTimerValue,
+      }}
       {...props}
     />
   );

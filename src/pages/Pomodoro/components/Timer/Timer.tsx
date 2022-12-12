@@ -8,21 +8,23 @@ import { PomodoroTimersKeys, TimersContext } from "../../contexts/timers";
 import "./styles.scss";
 
 const Timer = () => {
-  const [isActive, setIsActive] = useState(false);
+  const [seconds, setSeconds] = useState<number>(0);
   const [timerSelected, setTimerSelected] =
     useState<PomodoroTimersKeys>("pomodoro");
 
-  const { timerValues } = useContext(TimersContext);
-  const [seconds, setSeconds] = useState<number>(0);
+  const { timerValues, setElapsedTime, isActive, toggleIsActive } =
+    useContext(TimersContext);
 
   useEffect(() => {
     if (isActive) return;
 
     setSeconds(timerValues?.[timerSelected].seconds || 0);
+    //eslint-disable-next-line
   }, [timerValues, timerSelected]);
 
   const updateRemainingTime = () => {
     setSeconds((prev) => prev - 1);
+    setElapsedTime((prev) => prev + 1);
 
     if (seconds <= 0) {
       toggleIsActive();
@@ -31,18 +33,15 @@ const Timer = () => {
 
   useInterval(updateRemainingTime, isActive ? 1000 : null);
 
-  const toggleIsActive = () => {
-    setIsActive((prev) => !prev);
-  };
-
   const resetTimer = () => {
     const timerDuration = timerValues[timerSelected].seconds;
     setSeconds(timerDuration);
+    setElapsedTime(0);
   };
 
   const selectTimer = (type: PomodoroTimersKeys) => {
     setTimerSelected(type);
-    setIsActive(false);
+    toggleIsActive(false);
     setSeconds(timerValues[type].seconds);
   };
 
@@ -68,13 +67,13 @@ const Timer = () => {
       </span>
       <div className="timer__controls">
         {isActive ? (
-          <Button displayType="red" onClick={toggleIsActive}>
+          <Button displayType="red" onClick={() => toggleIsActive()}>
             Stop
           </Button>
         ) : (
           <>
             {seconds > 0 ? (
-              <Button onClick={toggleIsActive}>Start</Button>
+              <Button onClick={() => toggleIsActive()}>Start</Button>
             ) : (
               <Button onClick={() => selectTimer("short")}>Next</Button>
             )}

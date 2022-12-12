@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 
-import { SvgIcon } from "@mui/material";
+import { SvgIcon, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
@@ -88,7 +88,15 @@ const TaskItem: React.FC<TaskItemProps> = ({
               />
             </div>
             <h2>{title}</h2>
-            <span>0/{pomodoros}</span>
+            <Tooltip
+              title={`${pomodoros} ${
+                pomodoros > 1 ? "Pomodoro's" : "Pomodoro"
+              } remaining`}
+              placement="top"
+              arrow
+            >
+              <span>0/{pomodoros}</span>
+            </Tooltip>
             <SvgIcon
               className={`three-dot-icon ${showMenu && "show"}`}
               onClick={handleOpenMenu}
@@ -103,11 +111,13 @@ const TaskItem: React.FC<TaskItemProps> = ({
           >
             {description}
           </p>
-          <div className="task-item__time-totals">
-            {/* <p>Pomodoros: {pomodoros}</p> */}
-            <AccessTimeIcon style={{ fontSize: "18px" }} />
-            <p>{calculateTotalTime(pomodoros)} </p>
-          </div>
+          <Tooltip title="Estimated time remaining" placement="top" arrow>
+            <div className="task-item__time-totals">
+              {/* <p>Pomodoros: {pomodoros}</p> */}
+              <AccessTimeIcon style={{ fontSize: "18px" }} />
+              <p>{calculateTotalTime(pomodoros)} </p>
+            </div>
+          </Tooltip>
           <DropdownMenu
             className="task-item__menu"
             anchorEl={anchorEl}

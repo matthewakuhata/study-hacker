@@ -13,15 +13,11 @@ import { DropdownMenu } from "../../../../shared/components/DropdownMenu/Dropdow
 import CreateTask from "./CreateTask";
 import { TaskContext } from "./TaskList";
 import { convertToDisplayTime } from "../../../../helpers/convertToDisplayTime";
+import { Task } from "../../hooks/useTasks";
 
 import "./TaskItem.scss";
 
-interface TaskItemProps {
-  title: string;
-  description: string;
-  pomodoros: number;
-  isComplete: boolean;
-  id: string;
+interface TaskItemProps extends Task {
   index: number;
 }
 
@@ -30,6 +26,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   description,
   pomodoros,
   isComplete,
+  loggedTime,
   id,
   index,
 }) => {
@@ -65,6 +62,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
     );
   };
 
+  const { timeRemaining, pomodorosComplete, pomodorosRemaining } =
+    calculateTotalTimes(pomodoros, loggedTime || 0);
+
   return editMode ? (
     <CreateTask
       closeHandler={() => setEditMode(false)}
@@ -89,13 +89,17 @@ const TaskItem: React.FC<TaskItemProps> = ({
             </div>
             <h2>{title}</h2>
             <Tooltip
-              title={`${pomodoros} ${
-                pomodoros > 1 ? "Pomodoro's" : "Pomodoro"
+              title={`${pomodorosRemaining} ${
+                pomodorosRemaining > 1 || pomodorosRemaining === 0
+                  ? "Pomodoro's"
+                  : "Pomodoro"
               } remaining`}
               placement="top"
               arrow
             >
-              <span>0/{pomodoros}</span>
+              <span>
+                {pomodorosComplete}/{pomodoros}
+              </span>
             </Tooltip>
             <SvgIcon
               className={`three-dot-icon ${showMenu && "show"}`}
@@ -113,9 +117,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
           </p>
           <Tooltip title="Estimated time remaining" placement="top" arrow>
             <div className="task-item__time-totals">
-              {/* <p>Pomodoros: {pomodoros}</p> */}
               <AccessTimeIcon style={{ fontSize: "18px" }} />
-              <p>{calculateTotalTime(pomodoros)} </p>
+              <p>{timeRemaining} </p>
             </div>
           </Tooltip>
           <DropdownMenu
@@ -151,12 +154,19 @@ const TaskItem: React.FC<TaskItemProps> = ({
   );
 };
 
-function calculateTotalTime(pomodoros: number) {
+function calculateTotalTimes(pomodoros: number, loggedTime: number) {
   const timers = JSON.parse(localStorage.getItem("pomo-timers") || "{}");
-  return convertToDisplayTime(
-    pomodoros * (timers?.pomodoro?.seconds || 0),
+  const timeRemaining = convertToDisplayTime(
+    pomodoros * (timers?.pomodoro?.seconds || 0) - loggedTime,
     "hms"
   );
+  const pomodorosComplete = Math.min(
+    Math.floor(loggedTime / (timers?.pomodoro?.seconds || 0)),
+    pomodoros
+  );
+  const pomodorosRemaining = Math.max(pomodoros - pomodorosComplete, 0);
+
+  return { timeRemaining, pomodorosComplete, pomodorosRemaining };
 }
 
 export default TaskItem;

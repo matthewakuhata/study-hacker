@@ -27,7 +27,7 @@ export const useTasks = () => {
     const res = localStorage.getItem("pomo-tasks") || "[]";
     const data = JSON.parse(res) as Task[];
 
-    setTasks(data);
+    setTasks(data.sort((a, b) => (a.isComplete ? 1 : b.isComplete ? -1 : 1)));
   }, []);
 
   const createTask: CreateTaskFunction = ({

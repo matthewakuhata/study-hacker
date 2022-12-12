@@ -132,8 +132,11 @@
   .task-item__time-totals {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+    margin-top: 10px;
     p {
-      margin: 5px;
+      margin: 0;
     }
   }
 }

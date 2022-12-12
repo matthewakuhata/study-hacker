@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import { DropdownMenu } from "../../../../shared/components/DropdownMenu/DropdownMenu";
 import CreateTask from "./CreateTask";
@@ -104,7 +105,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
           </p>
           <div className="task-item__time-totals">
             {/* <p>Pomodoros: {pomodoros}</p> */}
-            <p>Est. Remaining: {calculateTotalTime(pomodoros)} </p>
+            <AccessTimeIcon style={{ fontSize: "18px" }} />
+            <p>{calculateTotalTime(pomodoros)} </p>
           </div>
           <DropdownMenu
             className="task-item__menu"

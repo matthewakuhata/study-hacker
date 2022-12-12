@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Draggable } from "react-beautiful-dnd";
 
 import { SvgIcon } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -8,11 +8,12 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MenuItem from "@mui/material/MenuItem";
 
-import "./TaskItem.scss";
 import { DropdownMenu } from "../../../../shared/components/DropdownMenu/DropdownMenu";
 import CreateTask from "./CreateTask";
 import { TaskContext } from "./TaskList";
 import { convertToDisplayTime } from "../../../../helpers/convertToDisplayTime";
+
+import "./TaskItem.scss";
 
 interface TaskItemProps {
   title: string;

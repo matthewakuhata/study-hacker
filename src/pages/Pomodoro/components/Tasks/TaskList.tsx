@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import { CreateTaskFunction, Task, useTasks } from "../../hooks/useTasks";

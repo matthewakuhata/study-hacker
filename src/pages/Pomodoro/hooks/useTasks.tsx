@@ -6,7 +6,6 @@ export type Task = {
   pomodoros: number;
   isComplete: boolean;
   id: string;
-  ordering: number;
 };
 
 export type CreateTaskFunction = ({
@@ -42,7 +41,6 @@ export const useTasks = () => {
       pomodoros,
       isComplete: false,
       id: Date.now().toString(),
-      ordering: tasks.length + 1,
     };
 
     setTasks((prev) => {

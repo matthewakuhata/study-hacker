@@ -6,6 +6,7 @@ export type Task = {
   pomodoros: number;
   isComplete: boolean;
   id: string;
+  ordering: number;
 };
 
 export type CreateTaskFunction = ({
@@ -24,7 +25,7 @@ export const useTasks = () => {
 
   useEffect(() => {
     const res = localStorage.getItem("pomo-tasks") || "[]";
-    const data = JSON.parse(res);
+    const data = JSON.parse(res) as Task[];
 
     setTasks(data);
   }, []);
@@ -41,10 +42,11 @@ export const useTasks = () => {
       pomodoros,
       isComplete: false,
       id: Date.now().toString(),
+      ordering: tasks.length + 1,
     };
 
     setTasks((prev) => {
-      const data = [newTask, ...prev];
+      const data = [...prev, newTask];
       localStorage.setItem("pomo-tasks", JSON.stringify(data));
 
       return data;
@@ -74,7 +76,7 @@ export const useTasks = () => {
     });
   };
 
-  const updateTask = (newTask: Task, id: string) => {
+  const updateTask = (newTask: Partial<Task>, id: string) => {
     setTasks((prev) => {
       let indexOf = -1;
       prev.filter((task, index) => {
@@ -88,12 +90,26 @@ export const useTasks = () => {
       if (indexOf < 0) return prev;
 
       const newData = [...prev];
-      newData[indexOf] = newTask;
+      newData[indexOf] = {
+        ...newData[indexOf],
+        ...newTask,
+      };
 
       localStorage.setItem("pomo-tasks", JSON.stringify(newData));
       return newData;
     });
   };
 
-  return { tasks, deleteTask, updateTask, createTask };
+  const reorderTasks = (source: number, destination: number) => {
+    setTasks((prevTasks) => {
+      const reorderedTask = [...prevTasks];
+      const [reorderedItem] = reorderedTask.splice(source, 1);
+      reorderedTask.splice(destination, 0, reorderedItem);
+
+      localStorage.setItem("pomo-tasks", JSON.stringify(reorderedTask));
+      return reorderedTask;
+    });
+  };
+
+  return { tasks, reorderTasks, deleteTask, updateTask, createTask };
 };

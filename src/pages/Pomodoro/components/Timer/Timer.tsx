@@ -9,18 +9,22 @@ import "./styles.scss";
 
 const Timer = () => {
   const [seconds, setSeconds] = useState<number>(0);
-  const [timerSelected, setTimerSelected] =
-    useState<PomodoroTimersKeys>("pomodoro");
+  const {
+    timerValues,
+    isActive,
+    timerSelected,
+    setElapsedTime,
+    toggleIsActive,
+    setTimerSelected,
+  } = useContext(TimersContext);
 
-  const { timerValues, setElapsedTime, isActive, toggleIsActive } =
-    useContext(TimersContext);
-
+  // maybe unneeded just make user refresh page
   useEffect(() => {
     if (isActive) return;
-
     setSeconds(timerValues?.[timerSelected].seconds || 0);
+
     //eslint-disable-next-line
-  }, [timerValues, timerSelected]);
+  }, [timerValues]);
 
   const updateRemainingTime = () => {
     setSeconds((prev) => prev - 1);
@@ -40,8 +44,18 @@ const Timer = () => {
   };
 
   const selectTimer = (type: PomodoroTimersKeys) => {
-    setTimerSelected(type);
+    if (isActive) {
+      const continueChange = window.confirm(
+        `This will stop the timer${
+          timerSelected === "pomodoro" ? " and no time will be log.\n" : ". "
+        }Do you want to continue?`
+      );
+
+      if (!continueChange) return;
+    }
     toggleIsActive(false);
+    setTimerSelected(type);
+    setElapsedTime(0);
     setSeconds(timerValues[type].seconds);
   };
 

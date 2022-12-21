@@ -5,9 +5,11 @@ import Header from "./shared/components/Navigation/Header";
 import { Pomodoro } from "./pages/Pomodoro";
 import { TimersProvider } from "./pages/Pomodoro/contexts/timers";
 import React from "react";
+import { useAuthSpotify } from "./shared/hooks/useAuthSpotify";
 
 // TODO: Maybe add CSSTransition package.
 function App() {
+  useAuthSpotify();
   return (
     <div className="App">
       {/* <Header /> */}

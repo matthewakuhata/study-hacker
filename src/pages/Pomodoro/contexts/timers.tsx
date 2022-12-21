@@ -32,15 +32,19 @@ interface TimersContextArgs {
   updateTimerValue: UpdateTimerValueFunction;
   toggleIsActive: (value?: boolean) => void;
   setElapsedTime: React.Dispatch<React.SetStateAction<number>>;
+  timerSelected: PomodoroTimersKeys;
+  setTimerSelected: React.Dispatch<React.SetStateAction<PomodoroTimersKeys>>;
 }
 
 export const TimersContext = createContext<TimersContextArgs>({
   timerValues: initialTimersValue,
   isActive: false,
   elapsedTime: 0,
+  timerSelected: "pomodoro",
   updateTimerValue: () => {},
   toggleIsActive: (_) => {},
   setElapsedTime: () => {},
+  setTimerSelected: () => {},
 });
 
 export const useTimers = () => {
@@ -57,6 +61,8 @@ export const TimersProvider = (props: any) => {
   const [timerValues, setTimerValues] = useState<PomodoroTimers | null>();
   const [isActive, setIsActive] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [timerSelected, setTimerSelected] =
+    useState<PomodoroTimersKeys>("pomodoro");
 
   const updateTimerValue: UpdateTimerValueFunction = (key, value) => {
     setTimerValues((prev) => {
@@ -96,6 +102,8 @@ export const TimersProvider = (props: any) => {
         setElapsedTime,
         toggleIsActive,
         updateTimerValue,
+        timerSelected,
+        setTimerSelected,
       }}
       {...props}
     />

@@ -25,7 +25,8 @@ export const TaskContext = createContext<TaskContextArgs>({
 
 const TaskList = () => {
   const [showAddTask, setShowAddTask] = useState(false);
-  const { isActive, elapsedTime, setElapsedTime } = useContext(TimersContext);
+  const { isActive, elapsedTime, timerSelected, setElapsedTime } =
+    useContext(TimersContext);
   const { tasks, reorderTasks, deleteTask, updateTask, createTask } =
     useTasks();
   const onDragEndHandler = (result: any) => {
@@ -34,8 +35,7 @@ const TaskList = () => {
   };
 
   useEffect(() => {
-    if (!isActive && tasks.length) {
-      console.log("rerender", elapsedTime, tasks[0]);
+    if (!isActive && timerSelected === "pomodoro" && tasks.length) {
       const updateTaskLogged = elapsedTime + (tasks[0].loggedTime || 0);
       const updateTaskId = tasks[0].id;
 

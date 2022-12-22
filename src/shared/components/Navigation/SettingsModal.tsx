@@ -3,8 +3,10 @@ import {
   PomodoroTimersKeys,
   TimersContext,
 } from "../../../pages/Pomodoro/contexts/timers";
-
 import Modal, { ModalProps } from "../Modal/Modal";
+import SpotifyLogin from "../SpotifyLogin/SpotifyLogin";
+
+import "./SettingsModal.scss";
 
 const SettingsModal: React.FC<ModalProps> = ({ show, closeModal }) => {
   const { timerValues, updateTimerValue } = useContext(TimersContext);
@@ -21,7 +23,7 @@ const SettingsModal: React.FC<ModalProps> = ({ show, closeModal }) => {
       <h3>TIMER SETTINGS</h3>
       <hr />
       {timerValues && (
-        <div className="setting-modal__timers">
+        <div className="setting-modal__block setting-modal__timers">
           <div className="setting-modal__timer">
             <h5>{timerValues.pomodoro.name.toUpperCase()}</h5>
             <input
@@ -51,6 +53,11 @@ const SettingsModal: React.FC<ModalProps> = ({ show, closeModal }) => {
           </div>
         </div>
       )}
+      <h3>LOGIN WITH SPOTIFY</h3>
+      <hr />
+      <div className="setting-modal__block">
+        <SpotifyLogin />
+      </div>
       {/* TODO Add close button and handler */}
       <span>X</span>
     </Modal>

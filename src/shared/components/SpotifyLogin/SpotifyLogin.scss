@@ -1,0 +1,15 @@
+.spotify-login {
+  color: var(--color-grey-text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+
+  &:hover{
+    text-decoration: underline;
+  }
+
+  img {
+    width: 25px;
+  }
+}

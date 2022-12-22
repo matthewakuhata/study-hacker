@@ -1,23 +1,5 @@
 import { useEffect, useState } from "react";
-
-export type Task = {
-  title: string;
-  description: string;
-  pomodoros: number;
-  isComplete: boolean;
-  loggedTime: number;
-  id: string;
-};
-
-export type CreateTaskFunction = ({
-  title,
-  description,
-  pomodoros,
-}: {
-  title: string;
-  description?: string;
-  pomodoros: number;
-}) => void;
+import { CreateTaskFunction, Task, TaskStatus } from "../types";
 
 // TODO: Clean up create update and delete functions
 export const useTasks = () => {
@@ -43,6 +25,7 @@ export const useTasks = () => {
       isComplete: false,
       loggedTime: 0,
       id: Date.now().toString(),
+      status: TaskStatus.OPEN,
     };
 
     setTasks((prev) => {

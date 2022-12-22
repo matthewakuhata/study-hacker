@@ -1,23 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import {
+  PomodoroTimers,
+  PomodoroTimersKeys,
+  UpdateTimerValueFunction,
+} from "../types";
 const SECONDS_IN_MIN = 60;
-
-export type PomodoroTimer = {
-  name: string;
-  seconds: number;
-};
-
-export type PomodoroTimersKeys = "pomodoro" | "short" | "long";
-
-export type PomodoroTimers = {
-  pomodoro: PomodoroTimer;
-  short: PomodoroTimer;
-  long: PomodoroTimer;
-};
-
-export type UpdateTimerValueFunction = (
-  key: PomodoroTimersKeys,
-  value: number
-) => void;
 
 export const initialTimersValue = {
   pomodoro: { name: "Pomodoro", seconds: 20 * SECONDS_IN_MIN },
